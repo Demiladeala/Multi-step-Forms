@@ -1,5 +1,5 @@
 "use client"
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useCallback } from 'react';
 
 type ModalContextProps = {
   children: ReactNode;
@@ -24,13 +24,13 @@ export const useModal = () => {
 export const ModalProvider = ({ children }: ModalContextProps) => {
   const [currentModal, setCurrentModal] = useState<string | null>(null);
 
-  const openModal = (modalName: string) => {
+  const openModal = React.useCallback((modalName: string) => {
     setCurrentModal(modalName);
-  };
+  }, [currentModal]);
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setCurrentModal(null);
-  };
+  },[currentModal]);
 
   return (
     <ModalContext.Provider
